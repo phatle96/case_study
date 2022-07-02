@@ -110,12 +110,12 @@ ___
 
 ## 2.1 Data sources
 
-In this task I were given a public data set that explores smart device users' daily habits that is [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit) and was stored on Kaggle by Mobius with [CC0 liscense](https://creativecommons.org/publicdomain/zero/1.0/)
+In this task, I was given a public data set that explores smart device users' daily habits that is [FitBit Fitness Tracker Data](https://www.kaggle.com/datasets/arashnic/fitbit) and was stored on Kaggle by Mobius with [CC0 liscense](https://creativecommons.org/publicdomain/zero/1.0/)
 
-But after explorer, we figure out that the data is copyright with [CCBY - Attribution](https://creativecommons.org/licenses/by/4.0/legalcode) license, and original stored on [Zenodo](https://zenodo.org/record/53894#.YoD7HNpBy02), so if we use this data, we are required attribution to the creator and include the BY element.
+But after the explorer, we figured out that the data is copyright with [CCBY - Attribution](https://creativecommons.org/licenses/by/4.0/legalcode) license, and originally stored on [Zenodo](https://zenodo.org/record/53894#.YoD7HNpBy02), so if we use this data, we are required attribution to the creator and include the BY element.
 
-So we will use data in the original that is stored on Zenodo and cite as Furberg, R., Brinton, J., Keating, M., & Ortiz, A. (2016). Crowd-sourced Fitbit datasets 03.12.2016-05.12.2016 [Data set]. Zenodo. [\@furberg2016](https://doi.org/10.5281/zenodo.53894)\
-*(Zenodo is a general-purpose open repository developed under the European OpenAIRE program and operated by CERN. It allows researchers to deposit research papers, data sets, research software, reports, and any other research related digital artefacts.)*
+So we will use the original data stored on Zenodo and cite Furberg, R., Brinton, J., Keating, M., & Ortiz, A. (2016). Crowd-sourced Fitbit datasets 03.12.2016-05.12.2016 [Data set]. Zenodo. [\@furberg2016](https://doi.org/10.5281/zenodo.53894)\
+*(Zenodo is a general-purpose open repository developed under the European OpenAIRE program and operated by CERN. It allows researchers to deposit research papers, data sets, research software, reports, and other digital artifacts.)*
 
 **Content:**
 
@@ -123,9 +123,9 @@ So we will use data in the original that is stored on Zenodo and cite as Furberg
 
 -   Thirty eligible Fitbit users consented to the submission of personal tracker data, including minute-level output for physical activity, heart rate, and sleep monitoring.
 
--   Individual reports can be parsed by export session ID (column A) or timestamp (column B). Variation between output represents use of different types of Fitbit trackers and individual tracking behaviors / preferences.
+-   Individual reports can be parsed by export session ID (column A) or timestamp (column B). Variation between output represents the use of different types of Fitbit trackers and individual tracking behaviors/preferences.
 
-After downloading data, we got two compressed files were named by two periods of time, first is from 03/12/2016 to 04/11/2016 and another is from 04/12/2016 to 05/12/2016
+After downloading data, we got two compressed files named by two periods of time, the first is from 03/12/2016 to 04/11/2016 and another is from 04/12/2016 to 05/12/2016
 
 ![The raw data](../documents/image/1.png)
 
@@ -134,24 +134,23 @@ Extract them, we got
 ![Data from 03/12/2016 to 04/11/2016](../documents/image/3.png)
 
 ![Data from 04/12/2016 to 05/12/2016](../documents/image/2.png)
+It looks like some of the data from the first period time are missing. We will explore that later on. First, we are going to import and merge data that are available during the whole period
 
-It's look like some of data from first period time are missing. We will explore that later on, first we are going to import and merge data that are available in whole period time
-
-But first we need to install and load packages that are the collection of R functions, complied code and sample data to made easier and faster data process
+We need to install and load packages that are the collection of R functions, compiled code, and sample data to make easier and faster data process
 
 ## 2.2 Packages & library
 
 -   The Core `tidyverse` package include essential packages inside that are:
-    -   `readr` to quickly importing CSV file
-    -   `tidyr` to tidying data that is a way to organize tabular data in a consistent data structure across packages. consistent data structure across packages. A table is tidy if
-    -   `dplyr` to transforming data
-    -   `stringr` to working with character type as string
+    -   `readr` to quickly import CSV file
+    -   `tidyr`  is a way to organize tabular data in a consistent data structure across packages. consistent data structure across packages. 
+    -   `dplyr` to transform data
+    -   `stringr` to work with character type as string
     -   `ggplot2` to visualize data
--   The `janitor` package to cleaning data
+-   The `janitor` package for cleaning data
 -   The `lubridate` package to handle DATETIME format and type
 -   The `kabbleExtra` package to print() Html table from Rmarkdown document
 
-Let's install package and load library.
+Let's install packages and load libraries.
 
 ```{r, eval = FALSE}
 library("tidyverse")
@@ -363,28 +362,27 @@ Notice that we missing some of the whole time data that include
 
 ## 2.5 Data integrity
 
-Let the data is integrity that must conform principals are accuracy, completeness, consistency and trustworthiness throughout its life cycle
+Let the data be integrity that must conform to principles are accuracy, completeness, consistency, and trustworthiness throughout its life cycle
 
-1.  Accuracy is the degree to which the data conforms to the actual entity being measured or described, so we will check the relation of variable in the merging table in each hierarchy of time from minute to hourly to daily
+1.  Accuracy is the degree to which the data conforms to the actual entity being measured or described, so we will check the relation of variables in the merging table in each hierarchy of time from minute to hourly to daily
 
-2.  Completeness is the degree to which the data contains all desired components or measures, so we will check missing data in minute, hourly and daily and effect of it to data validity
+2.  Completeness is the degree to which the data contains all desired components or measures, so we will check missing data in a minute, hourly, and daily and the effect on data validity
 
-3.  Consistency is the degree to which the data is repeatable from different points of entry or collection, so we will check data type consistency in the date time hierarchy
+3.  Consistency is the degree to which the data is repeatable from different points of entry or collection, so we will check data type consistency in the date-time hierarchy
 
-4.  And trustworthiness is check for bias and credibility in the data that are Reliable, Original, Comprehensive, Current and Cited
+4.  And trustworthiness is checked for bias and credibility in the data that are Reliable, Original, Comprehensive, Current, and Cited
 
-    -   Reliable: Due to sample size is 30 that is the smallest sample size for which the Central Limit Theorem is still valid, but in this sample size is not having any demographic information so we could encounter a sampling bias
-    -   Original: Due to this data were generated by third party provider - respondents to a distributed survey via Amazon Mechanical Turk so this data is not original from fitbit
-    -   Comprehensive: Parameters match most of Bellabeat products' parameters
+    -   Reliable: Due to the sample size being 30 that is the smallest sample size for which the Central Limit Theorem is still valid, but this sample size is not having any demographic information so we could encounter a sampling bias
+    -   Original: This data was generated by a third-party provider - respondents to a distributed survey via Amazon Mechanical Turk so this data is not original from Fitbit
+    -   Comprehensive: Parameters match most of the Bellabeat products' parameters
     -   Current: Data is 5 years old and may not be relevant
     -   Cited: cited as [Furberg, R., Brinton, J., Keating, M., & Ortiz, A. (2016)](https://doi.org/10.5281/zenodo.53894)
 
 ## 2.6 Data limitations
 
--   Data is collected 6 years ago in 2016. Users' daily activity, fitness and sleeping habits, diet and food consumption may have changed since then. Data may not be timely or relevant.
--   Sample size of 30 FitBit users with no any demographic information so that are not sure if the sample is representative of the population as a whole.
--   As data is collected in a survey, we are unable to ascertain it's integrity or accuracy.
-
+-   Data is collected 6 years ago in 2016. Users' daily activity, fitness and sleeping habits, diet, and food consumption may have changed since then. Data may not be timely or relevant.
+-   Sample size of 30 FitBit users with no any demographic information so we are not sure if the sample is representative of the population as a whole.
+-   As data is collected in a survey, we are unable to ascertain its integrity or accuracy.
 ___
 
 
@@ -392,9 +390,9 @@ ___
 
 ***Documentation of any cleaning or manipulation of data***
 
-We need to clean data that we could manipulate it much more easier.
+We need to clean data so that we could manipulate it much easier.
 
-Before clean data, we need to create `dataList` vector because we will use `for()` loop many time
+Before clean data, we need to create a `dataList` vector because we will use the `for()` loop many time
 
 ```{r, eval = FALSE}
 dataList <- c(ls(.GlobalEnv))
@@ -415,9 +413,9 @@ dataList <- c(ls(.GlobalEnv))
 
 ## 3.1 Name convention
 
-Our data name is in `camelCase` and variables are still in `CamelCase`, so it hard to recognize, so we will change variable name to `snake_case` using janitor::clean_names()
+Our data name is in `camelCase` and variables are still in `CamelCase`, so it is hard to recognize, so we will change the variable name to `snake_case` using janitor::clean_names()
 
-Let's see how `clean_names` function change variable names
+Let's see how the `clean_names` function change variable names
 
 ```{r, eval = FALSE}
 name_before <- c()
@@ -460,9 +458,9 @@ for(i in dataList){
 
 ## 3.2 Data type
 
-Notice that the `DATETIME` is used in this data is 12-hours format and that is recognized as character type, we need to convert it into 24-hours format and `DATETIME` type
+Notice that the `DATETIME` is used in this data is 12-hours format and that is recognized as character type, we need to convert it into the 24-hours format, and the `DATETIME` type
 
-We need to convert data as `DATE` format
+We need to convert data in `DATE` format
 
 ```{r, eval = FALSE}
 dailyActivity$activity_date
@@ -671,15 +669,11 @@ Next, using `janitor::remove_empty()` or `ggplot2::remove_missing()` to removing
 ```{r, eval = FALSE}
 #----- Using `janitor::remove_empty()` or `ggplot2::remove_missing()` to removing empty data
 for(i in dataList){
-  a = i ##Set counter
   i <- str_c(i," <- remove_empty(", i, ")")
   eval(parse(text = i))
-  ##Process counter loading... --%
-  a = round(str_which(dataList, a)/length(dataList)*100, 1)
-  print(str_c("loading...", a))
 }
 # Remove no necessary vestors
-remove(i, a)
+remove(i)
 # Review summary result
 ```
 
@@ -1073,7 +1067,14 @@ hourlyActivityProcessed <- minuteActivityProcessed %>%
 
 ### 3.6.3 Daily data
 
-We got the `dailyActivity` data include of - `total_steps` - `very_active_minutes` - `sedentary_minutes` - `lightly_active_minutes` - `fairly_active_minutes` - `very_active_minutes` - `calories` that have been grouped by `id`, `activity_date`, and the activity `intensity` level
+We got the `dailyActivity` data include of 
+- `total_steps` <br>
+- `very_active_minutes` <br>
+- `sedentary_minutes` <br>
+- `lightly_active_minutes` <br>
+- `fairly_active_minutes` <br>
+- `very_active_minutes` <br>
+- `calories` that have been grouped by `id`, `activity_date`, and the activity `intensity` level
 
 But we also got some distance variables that are missing in the minute and hourly data - `total_distance` - `tracker_distance` - `logged_activities_distance` - `sedentary_active_distance` - `light_active_distance` - `moderately_active_distance`
 
@@ -1768,6 +1769,6 @@ ___
 
 ***Supporting visualizations and key findings***
 
-I already uploaded the Bellabeat data presentation in Tableau [Link](https://public.tableau.com/app/profile/phatlv/viz/BellabeatCasestudy_16564986351180/Story1)
+I already uploaded the Bellabeat data presentation on Tableau [Link](https://public.tableau.com/app/profile/phatlv/viz/BellabeatCasestudy_16564986351180/Story1)
 
-In the presentation includes the analysis report, final conclusions and recommendations based on analysis
+The presentation includes the analysis report, final conclusions, and recommendations based on the analysis
